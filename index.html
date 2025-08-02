@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Carte d'anniversaire</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="icon" type="image/x-icon" href="/img/bapteme_1.ico">
+    <!-- Polices -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Great+Vibes&display=swap" rel="stylesheet">
+    <style>
+     * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Cormorant Garamond', serif;
+      background-color: #f9f7ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .card-container {
+      perspective: 1000px;
+      width: 100%;
+      max-width: 700px;
+      height: 90vh;
+    }
+
+    .card {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 1s;
+    }
+
+    .card.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .card-front {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 15px;
+      overflow: hidden;
+      backface-visibility: hidden;
+      box-shadow: 0 10px 30px rgba(102, 51, 153, 0.3);
+    }
+    
+    .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 15px;
+      overflow: auto;
+      backface-visibility: hidden;
+      box-shadow: 0 10px 30px rgba(102, 51, 153, 0.3);
+    }
+
+    .card-front {
+      background: linear-gradient(135deg, #9370DB, #663399);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+      justify-content: space-between;
+    }
+
+    .card-back {
+      background: white;
+      transform: rotateY(180deg);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .host-name {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.8rem;
+      color: #fff;
+    }
+
+    .invitation-text {
+      font-size: 1.2rem;
+      margin: 10px 0;
+      font-style: italic;
+    }
+
+    .card-message {
+      font-size: 1rem;
+      max-width: 90%;
+      font-style: italic;
+    }
+
+    .flip-instruction {
+      font-size: 0.8rem;
+      cursor: pointer;
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      opacity: 0.9;
+    }
+
+    .flip-icon {
+      width: 18px;
+      height: 18px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    .photo-zone {
+      width: 130px;
+      height: 130px;
+      border-radius: 10px;
+      background-color: #ffffff33;
+      border: 2px dashed #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      color: #fff;
+      margin-bottom: 15px;
+    }
+
+        .card-message {
+            font-size: 1.1rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            max-width: 80%;
+        }
+
+        .divider {
+            width: 60%;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.5);
+            margin: 15px 0;
+        }
+
+        .ornament {
+            font-size: 1.5rem;
+            margin: 5px 0;
+        }
+
+        .flip-instruction {
+            position: absolute;
+            bottom: 20px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .flip-icon {
+            width: 20px;
+            height: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .event {
+            margin-bottom: 25px;
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .event-date {
+            font-size: 1.3rem;
+            color: #663399;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .event-location {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .event-time {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        .event-description {
+            font-size: 0.9rem;
+            font-style: italic;
+            color: #777;
+            margin-top: 5px;
+        }
+
+        .event:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 5px;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #9370DB;
+        }
+
+        .event:after {
+            content: "";
+            position: absolute;
+            left: 7px;
+            top: 25px;
+            width: 1px;
+            height: calc(100% - 5px);
+            background: #9370DB;
+        }
+
+        .event:last-child:after {
+            display: none;
+        }
+
+        .back-title {
+            font-size: 1.8rem;
+            color: #663399;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 400;
+        }
+
+        .back-footer {
+            margin-top: auto;
+            text-align: center;
+            font-style: italic;
+            color: #663399;
+        }
+
+        .back-scripture {
+            text-align: center;
+            font-style: italic;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #663399;
+        }
+
+        .dove-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .dove {
+            width: 60px;
+            height: 60px;
+            opacity: 0.8;
+        }
+
+        .decoration {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            opacity: 0.1;
+        }
+
+        .decoration-1 {
+            top: -30px;
+            left: -30px;
+        }
+
+        .decoration-2 {
+            bottom: -30px;
+            right: -30px;
+        }
+
+        .ribbon {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 150px;
+            height: 150px;
+            overflow: hidden;
+        }
+
+        .ribbon-content {
+            position: absolute;
+            display: block;
+            width: 225px;
+            padding: 15px 0;
+            background-color: #9370DB;
+            box-shadow: 0 5px 10px rgba(0,0,0,.1);
+            color: #fff;
+            font-size: 0.8rem;
+            text-shadow: 0 1px 1px rgba(0,0,0,.2);
+            text-transform: uppercase;
+            text-align: center;
+            right: -25px;
+            top: 30px;
+            transform: rotate(45deg);
+        }
+
+        .host-section {
+            background-color: rgba(147, 112, 219, 0.1);
+            border-left: 3px solid #9370DB;
+            padding: 10px 15px;
+            margin-bottom: 20px;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .host-section-title {
+            font-size: 1rem;
+            color: #663399;
+            margin-bottom: 5px;
+        }
+
+        .host-section-name {
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.8rem;
+            color: #663399;
+        }
+
+        @media (max-width: 600px) {
+            .card-title { font-size: 2rem; }
+            .card-subtitle { font-size: 1.2rem; }
+            .host-name { font-size: 2.2rem; }
+            .card-message { font-size: 1rem; max-width: 95%; }
+            .event-date { font-size: 1.1rem; }
+            .event-location { font-size: 1rem; }
+            .card-front, .card-back { padding: 30px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="card-container">
+        <div class="card" id="card">
+            <div class="card-front">
+                 <div class="photo-zone"><img  src="img/eve.jpg" alt="" style="width:126px; height: 126px; border-radius: 10px;"  ></div>
+                <div class="ornament">✦</div>
+                <h3 class="host-name">Eva</h3>
+                <p class="invitation-text">vous invite à ce moment heureux</p>
+                <div class="ornament">✦</div>
+                <p class="card-message">
+                    Nombres 6:24-26
+
+Que le Seigneur te bénisse et te garde ! Que le Seigneur fasse briller sa face sur toi et te fasse grâce ! Que le Seigneur tourne sa face vers toi et te donne la paix.
+                 </p>
+                <div class="flip-instruction" onclick="flipCard()">
+                    <span>Cliquez pour voir les détails</span>
+                    <svg class="flip-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7.41,8.59L12,13.17l4.59-4.58L18,10l-6,6l-6-6L7.41,8.59z" fill="white"/>
+                    </svg>
+                </div>
+                <svg class="decoration decoration-1" viewBox="0 0 200 200"><path d="M20,100 Q50,50 100,100 T180,100" stroke="white" stroke-width="5" fill="none"/></svg>
+                <svg class="decoration decoration-2" viewBox="0 0 200 200"><path d="M20,100 Q50,50 100,100 T180,100" stroke="white" stroke-width="5" fill="none"/></svg>
+            </div>
+            <div class="card-back">
+                <div class="dove-container">
+                    <svg class="dove" viewBox="0 0 100 100"><path d="M85,30 C75,15 55,20 50,35 C45,20 25,15 15,30 C5,45 15,65 50,85 C85,65 95,45 85,30 Z" fill="#9370DB"/></svg>
+                </div>
+                <div class="host-section">
+                  
+                    <div class="host-section-name">Eva</div>
+                </div>
+                <h3 class="back-title"></h3>
+                <div class="event">
+                    <div class="event-date">Le Samedi 02 Août 2025</div>
+                    <div class="event-location">Rejoignez-nous en prière pour remercier le Seigneur pour les 1 an de plus qu’il m'a donné</div>
+                    <div class="event-time"></div>
+                    <div class="event-description"></div>
+                </div>
+                <div class="event">
+                    <div class="event-date">✨ Vous désirez m'offrir un petit quelque chose ?</div>
+                    <div class="event-location">
+Un mot, un geste, un cadeau 💝 ou une bénédiction en ligne sont les bienvenus.</div>
+                    <div class="event-time"></div>
+                    <div class="event-description"></div>
+                </div>
+                <div class="event">
+                    <div class="event-date">Je suis très wavante</div>
+                    <div class="event-location">Merci Famille</div>
+                    <div class="event-time"></div>
+                    <div class="event-description"></div>
+                </div>
+                <div class="back-footer">"Que cette journée soit bénie et remplie de joie"</div>
+                <div class="back-scripture">
+                    Jérémie 29:11
+« Car je connais les projets que j’ai formés sur vous, dit l’Éternel,
+projets de paix et non de malheur, afin de vous donner un avenir et de l’espérance. »
+                </div>
+                <div class="ribbon"><span class="ribbon-content">Avec joie</span></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function flipCard() {
+            document.getElementById('card').classList.toggle('flipped');
+        }
+
+        document.getElementById('card').addEventListener('click', function(e) {
+            if (e.target.tagName !== 'BUTTON') {
+                flipCard();
+            }
+        });
+    </script>
+</body>
+</html>
